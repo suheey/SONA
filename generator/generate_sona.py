@@ -4,7 +4,6 @@ import logging
 import random
 import json
 import os
-import hashlib
 from tqdm import tqdm
 from PIL import Image
 from collections import OrderedDict
@@ -15,49 +14,14 @@ import torch.nn.functional as F
 from pipelines import SONAPipeline
 from datasets import load_dataset
 import utils.util as util
+from utils.prompt_utils import (
+    get_ood_list,
+    select_random_word2prompt,
+)
 
 from accelerate import Accelerator
 
 
-IMAGENET_PROMPT_TEMPLATES = [
-    "a photo of a {}",
-]
-
-def get_seed_from_filename(filename):
-    hash_object = hashlib.sha256(filename.encode())
-    hash_digest = hash_object.hexdigest()
-    seed = int(hash_digest, 16) % (10**10) 
-    return seed
-
-def get_ood_list(dataset):
-    idx2folder = {v: k for k, v in dataset.class_to_idx.items()} 
-
-    # Load classnames.txt to map folder names to class names
-    folder2class = util.read_classnames('./utils/classnames.txt')
-
-    # Map indices to class names for prompts
-    idx2class = {idx: folder2class[folder] for idx, folder in idx2folder.items()}
-
-    # Select 800 words (1k except 200 id words)
-    ood_word_list = util.find_ood_words(folder2class, idx2folder)
-    return ood_word_list, idx2class
-
-def select_random_word2prompt(y_batch, id_word_dict, file_names, ood_word_list):
-    extracted_names = [os.path.basename(name) for name in file_names]
-
-    id_editing_prompts, ood_editing_prompts = [], []
-    for idx, y in enumerate(y_batch):
-        seed = get_seed_from_filename(extracted_names[idx])
-        random.seed(seed)
-
-        id_prompt = random.choice(IMAGENET_PROMPT_TEMPLATES).format(id_word_dict[y.item()])
-        id_editing_prompts.append(id_prompt)
-        ood_prompt = random.choice(IMAGENET_PROMPT_TEMPLATES).format(random.choice(ood_word_list))
-        ood_editing_prompts.append(ood_prompt)
-
-    editing_prompts = id_editing_prompts + id_editing_prompts + ood_editing_prompts
-
-    return editing_prompts
 
 def main(args):
     random.seed(args.new_seed)
