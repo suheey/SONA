@@ -1,0 +1,15 @@
+# Core dependencies
+numpy
+pillow
+scikit-learn
+torch
+torchvision
+
+# Training utilities
+accelerate
+tqdm
+
+diffusers
+transformers
+datasets
+matplotlib
