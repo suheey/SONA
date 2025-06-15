@@ -1,9 +1,12 @@
 # SONA
 
+This repository is the official release code for the AAAI 2025 accepted paper
+"Diffusion-based Semantic Outlier Generation via Nuisance Awareness for Out-of-Distribution Detection".
+
 This repository contains the official implementation for the paper ["SONA"](https://arxiv.org/pdf/2408.14841).
 It provides two major components:
 
-- `generator/` – utilities and pipelines for generating Synthetic OOD Noise Augmentation (SONA) samples using Stable Diffusion.
+- `generator/` – utilities and pipelines for generating Semantic Outlier Generation via Nuisance Awareness (SONA) samples using Stable Diffusion.
 - `classifier/` – training code for the image classifier used in the paper.
 
 ## Installation
