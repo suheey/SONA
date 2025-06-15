@@ -3,8 +3,8 @@
 This repository contains the official implementation for the paper ["SONA"](https://arxiv.org/pdf/2408.14841).
 It provides two major components:
 
-- `classifier/` – training code for the image classifier used in the paper.
 - `generator/` – utilities and pipelines for generating Synthetic OOD Noise Augmentation (SONA) samples using Stable Diffusion.
+- `classifier/` – training code for the image classifier used in the paper.
 
 ## Installation
 
@@ -15,21 +15,6 @@ pip install -r requirements.txt
 ```
 
 The generator additionally depends on `diffusers` and `transformers`.
-
-## Training a Classifier
-
-The classifier can be trained on ImageNet‑200 as follows:
-
-```bash
-python classifier/train.py --dataset in200 \
-    --id_train_dir <path-to-id-train> \
-    --id_train_vae_dir <path-to-id-vae-train> \
-    --id_test_dir <path-to-id-val> \
-    --ood_dir <path-to-generated-sona> \
-    --save <output-dir>
-```
-
-Adjust the dataset paths to your environment.  Checkpoints are saved to the directory specified by `--save`.
 
 ## Generating SONA Samples
 
@@ -51,6 +36,21 @@ edited images under the directory given by `--save_dir`.
 Prompt generation utilities live in `generator/utils/prompt_utils.py`.  These
 provide helper functions for deterministic prompt creation and OOD word
 selection.
+
+## Training a Classifier
+
+The classifier can be trained on ImageNet‑200 as follows:
+
+```bash
+python classifier/train.py --dataset in200 \
+    --id_train_dir <path-to-id-train> \
+    --id_train_vae_dir <path-to-id-vae-train> \
+    --id_test_dir <path-to-id-val> \
+    --ood_dir <path-to-generated-sona> \
+    --save <output-dir>
+```
+
+Adjust the dataset paths to your environment.  Checkpoints are saved to the directory specified by `--save`.
 
 ## Repository Structure
 
