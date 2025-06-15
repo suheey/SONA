@@ -1,4 +1,4 @@
-# SONA Release
+# SONA
 
 This repository contains the official implementation for the paper ["SONA"](https://arxiv.org/pdf/2408.14841).
 It provides two major components:
