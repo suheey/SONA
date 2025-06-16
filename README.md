@@ -71,7 +71,3 @@ generator/               # Stable Diffusion based generator
 ```
 
 Both `classifier` and `generator` are Python packages and can be imported.
-
-## License
-
-This project is released under the Apache 2.0 License.
